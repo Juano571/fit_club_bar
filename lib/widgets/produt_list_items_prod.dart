@@ -19,10 +19,13 @@ class _ProductListItemsProdState extends State<ProductListItemsProd> {
         return ProductCard(
               name: widget.products[index].name,
               price: widget.products[index].price,
-              stock: widget.products[index].stock
+              stock: widget.products[index].stock,
+              isAddCartEnabled: true,
+              id: widget.products[index].id!,
             );
       },
       itemCount: widget.products.length,
+
     );
   }
 }

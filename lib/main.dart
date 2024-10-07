@@ -1,3 +1,4 @@
+import 'package:fit_club_bar/providers/cart_provider.dart';
 import 'package:fit_club_bar/providers/product_provider.dart';
 import 'package:fit_club_bar/screens/add_product_screen.dart';
 import 'package:fit_club_bar/screens/cart_screen.dart';
@@ -21,6 +22,7 @@ class MainApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) => ProductProvider()),
+        ChangeNotifierProvider(create: (context) => CartProvider()),
       ],
       child: MaterialApp(
         title: 'Fit Club Bar',

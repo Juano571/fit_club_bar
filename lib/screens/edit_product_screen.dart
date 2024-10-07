@@ -21,9 +21,9 @@ class _EditProductScreenState extends State<EditProductScreen> {
   final TextEditingController _priceController = TextEditingController();
   final TextEditingController _stockController = TextEditingController();
 
-  final FocusNode _nameFocusNode = FocusNode();
-  final FocusNode _priceFocusNode = FocusNode();
-  final FocusNode _stockFocusNode = FocusNode();
+  // final FocusNode _nameFocusNode = FocusNode();
+  // final FocusNode _priceFocusNode = FocusNode();
+  // final FocusNode _stockFocusNode = FocusNode();
 
   @override
   void didChangeDependencies() {
@@ -41,9 +41,9 @@ class _EditProductScreenState extends State<EditProductScreen> {
     _nameController.dispose();
     _priceController.dispose();
     _stockController.dispose();
-    _nameFocusNode.dispose();
-    _priceFocusNode.dispose();
-    _stockFocusNode.dispose();
+    // _nameFocusNode.dispose();
+    // _priceFocusNode.dispose();
+    // _stockFocusNode.dispose();
     super.dispose();
   }
 
@@ -67,10 +67,10 @@ class _EditProductScreenState extends State<EditProductScreen> {
                 prefixIcon: Icons.label,
                 keyboardType: TextInputType.name,
                 textInputAction: TextInputAction.next,
-                focusNode: _nameFocusNode,
-                onFieldSubmitted: (_) {
-                  FocusScope.of(context).requestFocus(_priceFocusNode);
-                },
+                // focusNode: _nameFocusNode,
+                // onFieldSubmitted: (_) {
+                //   FocusScope.of(context).requestFocus(_priceFocusNode);
+                // },
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'El nombre es requerido';
@@ -88,10 +88,10 @@ class _EditProductScreenState extends State<EditProductScreen> {
                 prefixIcon: Icons.attach_money,
                 keyboardType: TextInputType.number,
                 textInputAction: TextInputAction.next,
-                focusNode: _priceFocusNode,
-                onFieldSubmitted: (_) {
-                  FocusScope.of(context).requestFocus(_stockFocusNode);
-                },
+                // focusNode: _priceFocusNode,
+                // onFieldSubmitted: (_) {
+                //   FocusScope.of(context).requestFocus(_stockFocusNode);
+                // },
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'El precio es requerido';
@@ -110,7 +110,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
                 keyboardType: TextInputType.number,
                 textInputAction: TextInputAction.done,
                 autofocus: true,
-                focusNode: _stockFocusNode,
+                // focusNode: _stockFocusNode,
                 validator: (value) {
                   if (value != null && value.isNotEmpty) {
                     if (int.tryParse(value) == null) {

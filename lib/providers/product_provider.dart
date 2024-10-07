@@ -1,5 +1,4 @@
 import 'dart:collection';
-
 import 'package:fit_club_bar/databases/product_database.dart';
 import 'package:fit_club_bar/dtos/product_model.dart';
 import 'package:flutter/material.dart';
@@ -22,8 +21,6 @@ class ProductProvider extends ChangeNotifier {
     _products = _originalProducts
         .where((element) => element.name.toLowerCase().contains(name.toLowerCase()))
         .toList();
-
-    print('Products found: $_originalProducts'); 
     notifyListeners();
   }
 

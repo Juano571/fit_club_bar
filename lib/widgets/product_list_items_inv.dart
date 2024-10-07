@@ -73,7 +73,8 @@ class _ProductListItemsInvState extends State<ProductListItemsInv> {
           child: ProductCard(
               name: widget.products[index].name,
               price: widget.products[index].price,
-              stock: widget.products[index].stock
+              stock: widget.products[index].stock,
+              isAddCartEnabled: false
             ),
         );
       },

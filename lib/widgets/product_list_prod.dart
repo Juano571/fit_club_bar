@@ -1,5 +1,5 @@
 import 'package:fit_club_bar/providers/product_provider.dart';
-import 'package:fit_club_bar/widgets/produt_list_item_prod.dart';
+import 'package:fit_club_bar/widgets/produt_list_items_prod.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
