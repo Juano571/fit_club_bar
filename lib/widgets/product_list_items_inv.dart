@@ -1,3 +1,4 @@
+import 'package:fit_club_bar/providers/cart_provider.dart';
 import 'package:fit_club_bar/providers/product_provider.dart';
 import 'package:fit_club_bar/screens/edit_product_screen.dart';
 import 'package:fit_club_bar/widgets/product_card.dart';
@@ -27,31 +28,51 @@ class _ProductListItemsInvState extends State<ProductListItemsInv> {
             children: [
               SlidableAction(
                 onPressed: (context) {
-                  showDialog(
-                    context: context,
-                    builder: (context) => AlertDialog(
-                      title: const Text("¿Deseas eliminar este producto?"),
-                      content: const Text("Esta acción no se puede deshacer"),
-                      actions: [
-                        TextButton(
-                          onPressed: () {
-                            Provider.of<ProductProvider>(context, listen: false)
-                                .deleteProduct(widget.products[index].id!);
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                  content: Text("Producto eliminado")),
-                            );
-                            Navigator.of(context).pop();
-                          },
-                          child: const Text("Eliminar"),
-                        ),
-                        TextButton(
-                          onPressed: () => Navigator.of(context).pop(),
-                          child: const Text("Cancelar"),
-                        ),
-                      ],
-                    ),
-                  );
+                  Provider.of<CartProvider>(context, listen: false)
+                          .cartProducts
+                          .isEmpty
+                      ? showDialog(
+                          context: context,
+                          builder: (context) => AlertDialog(
+                            title:
+                                const Text("¿Deseas eliminar este producto?"),
+                            content:
+                                const Text("Esta acción no se puede deshacer"),
+                            actions: [
+                              TextButton(
+                                onPressed: () {
+                                  Provider.of<ProductProvider>(context,
+                                          listen: false)
+                                      .deleteProduct(
+                                          widget.products[index].id!);
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                        content: Text("Producto eliminado")),
+                                  );
+                                  Navigator.of(context).pop();
+                                },
+                                child: const Text("Eliminar"),
+                              ),
+                              TextButton(
+                                onPressed: () => Navigator.of(context).pop(),
+                                child: const Text("Cancelar"),
+                              ),
+                            ],
+                          ),
+                        )
+                      : showDialog(
+                          context: context,
+                          builder: (context) => AlertDialog(
+                            title: const Text('Alerta'),
+                            content: const Text('No se puede eliminar el producto mientras haya productos en el carrito'),
+                            actions: [
+                              TextButton(
+                                onPressed: () => Navigator.of(context).pop(),
+                                child: const Text("Cancelar"),
+                              ),
+                            ],
+                          ),
+                        );
                 },
                 backgroundColor: Colors.red,
                 foregroundColor: Colors.white,
@@ -60,8 +81,25 @@ class _ProductListItemsInvState extends State<ProductListItemsInv> {
               ),
               SlidableAction(
                 onPressed: (context) {
-                  Navigator.pushNamed(context, EditProductScreen.routeName,
-                      arguments: widget.products[index]);
+                  Provider.of<CartProvider>(context, listen: false)
+                          .cartProducts
+                          .isEmpty
+                      ? Navigator.pushNamed(
+                          context, EditProductScreen.routeName,
+                          arguments: widget.products[index])
+                      : showDialog(
+                          context: context,
+                          builder: (context) => AlertDialog(
+                            title: const Text('Alerta'),
+                            content: const Text('No se puede editar el producto mientras haya productos en el carrito'),
+                            actions: [
+                              TextButton(
+                                onPressed: () => Navigator.of(context).pop(),
+                                child: const Text("Cancelar"),
+                              ),
+                            ],
+                          ),
+                        );
                 },
                 backgroundColor: Colors.blue,
                 foregroundColor: Colors.white,
@@ -74,8 +112,7 @@ class _ProductListItemsInvState extends State<ProductListItemsInv> {
               name: widget.products[index].name,
               price: widget.products[index].price,
               stock: widget.products[index].stock,
-              isAddCartEnabled: false
-            ),
+              isAddCartEnabled: false),
         );
       },
       itemCount: widget.products.length,

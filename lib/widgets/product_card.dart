@@ -1,5 +1,6 @@
 import 'package:fit_club_bar/dtos/product_cart_model.dart';
 import 'package:fit_club_bar/providers/cart_provider.dart';
+import 'package:fit_club_bar/providers/product_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -46,7 +47,7 @@ class _ProductCardState extends State<ProductCard> {
                 fontSize: 18,
               ),
             ),
-            const SizedBox(height: 5),
+            const SizedBox(height: 16),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -58,16 +59,17 @@ class _ProductCardState extends State<ProductCard> {
                   ),
                 ),
                 Text(
-                  "Stock: ${widget.stock.toString()}",
+                  "Stock: ${(widget.stock - selectedQuantity).toString()}",
                   style: TextStyle(
                     fontSize: 16,
                     color: widget.stock > 0 ? Colors.green : Colors.red,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
+                const SizedBox(height: 10),
               ],
             ),
-            const SizedBox(height: 10),
+            const SizedBox(height: 16),
             if (widget.isAddCartEnabled)
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -84,9 +86,7 @@ class _ProductCardState extends State<ProductCard> {
                             : null,
                         icon: const Icon(Icons.remove),
                         color:
-                            selectedQuantity > 0 
-                            ? Colors.black 
-                            : Colors.grey,
+                            selectedQuantity > 0 ? Colors.black : Colors.grey,
                       ),
                       Text(
                         selectedQuantity.toString(),
@@ -108,21 +108,30 @@ class _ProductCardState extends State<ProductCard> {
                     ],
                   ),
                   ElevatedButton.icon(
-                    onPressed: selectedQuantity > 0 
+                    onPressed: selectedQuantity > 0
                         ? () {
-                          Provider.of<CartProvider>(context, listen: false)
-                              .addProduct(ProductCart(
-                                  id: widget.id!,
-                                  name: widget.name,
-                                  quantity: selectedQuantity,
-                                  price: widget.price,
-                                  currentStock: widget.stock));
-                          setState(() {
-                            selectedQuantity = 0;
-                          });
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(content: Text('Producto añadido')));
-                        } 
+                            Provider.of<CartProvider>(context, listen: false)
+                                .addProduct(ProductCart(
+                                    id: widget.id!,
+                                    name: widget.name,
+                                    quantity: selectedQuantity,
+                                    price: widget.price,
+                                    currentStock:
+                                        widget.stock - selectedQuantity));
+                            Provider.of<ProductProvider>(context, listen: false)
+                                .updateProduct(
+                                  widget.id!,
+                                  stock: widget.stock - selectedQuantity
+                                );
+
+                            setState(() {
+                              selectedQuantity = 0;
+                            });
+                            
+                            ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                    content: Text('Producto añadido')));
+                          }
                         : null,
                     icon: const Icon(Icons.shopping_cart),
                     label: const Text('Añadir al carrito'),

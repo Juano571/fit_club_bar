@@ -21,4 +21,25 @@ class ProductCart {
     required this.price,
     required this.currentStock,
   });
+  
+  // Sobrescribir == para comparar atributos
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+
+    return other is ProductCart &&
+        other.id == id &&
+        other.name == name &&
+        other.price == price;
+  }
+
+  // Sobrescribir hashCode para que sea coherente con ==
+  @override
+  int get hashCode =>
+      id.hashCode ^ name.hashCode ^ price.hashCode;
+
+  @override
+  String toString() {
+    return 'ProductCart(id: $id, name: $name, quantity: $quantity, price: $price, currentStock: $currentStock)';
+  }
 }

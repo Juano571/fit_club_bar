@@ -9,8 +9,14 @@ class CartProvider extends ChangeNotifier {
       UnmodifiableListView(_cartProducts);
 
   void addProduct(ProductCart product) {
-    _cartProducts.add(product);
-    notifyListeners();
+    if (_cartProducts.contains(product)) {
+      final index = _cartProducts.indexWhere((element) => element == product);
+      _cartProducts[index].quantity += product.quantity;
+      notifyListeners();
+    } else {
+      _cartProducts.add(product);
+      notifyListeners();
+    }
   }
 
   void removeProduct(ProductCart product) {
